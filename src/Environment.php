@@ -38,18 +38,25 @@ class Environment
      */
     protected $sslPassword;
 
+    /**
+     * @var bool
+     */
+    protected $sandbox;
+
     public function __construct(
         string $username,
         string $password,
         string $sslCert,
         string $sslKey,
-        string $sslPassword
+        string $sslPassword,
+        bool $sandbox = false
     ) {
-        $this->setUsername($username);
-        $this->setPassword($password);
-        $this->setSslCert($sslCert);
-        $this->setSslKey($sslKey);
-        $this->setSslPassword($sslPassword);
+        $this->setUsername($username)
+             ->setPassword($password)
+             ->setSslCert($sslCert)
+             ->setSslKey($sslKey)
+             ->setSslPassword($sslPassword)
+             ->setSandbox($sandbox);
     }
 
     public function getUsername() : string
@@ -116,6 +123,18 @@ class Environment
     public function setSslPassword(string $sslPassword) : Environment
     {
         $this->sslPassword = $sslPassword;
+
+        return $this;
+    }
+
+    public function isSandbox() : bool
+    {
+        return $this->sandbox;
+    }
+
+    public function setSandbox(bool $sandbox) : Environment
+    {
+        $this->sandbox = $sandbox;
 
         return $this;
     }
