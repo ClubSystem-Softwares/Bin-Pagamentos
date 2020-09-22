@@ -7,6 +7,7 @@ digitais. Para este package foram gerados alguns certificados
 auto-assinados, que se encontram em `tests/fixtures/certs`.
 
 A senha do certificado `private_key.pem` é muito simples: *123456*
+
 Estes certificados tem validade de 4 anos.
 Caso deseja gerar outros, faça
 
