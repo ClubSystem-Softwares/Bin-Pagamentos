@@ -11,8 +11,7 @@ class HttpTest extends TestCase
 {
     public function testHttpComponent()
     {
-        $env = $this->getEnv();
-
+        $env  = $this->getEnv();
         $http = new Http($env);
 
         $this->assertInstanceOf(Http::class, $http);
