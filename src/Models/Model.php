@@ -67,15 +67,7 @@ abstract class Model implements ModelInterface
 
     public function setAttribute(string $key, $value)
     {
-        $key = $this->getAttributeName($key);
-
-        if ($this->isFillable($key)) {
-            $this->attributes[$key] = $value;
-        } else {
-            throw new MassAssignException(
-                sprintf('The attribute [%s] is not marked as fillable in [%s]', $key, get_class($this))
-            );
-        }
+        $this->fill([$key => $value]);
     }
 
     protected function getAttributeName($attribute): string
