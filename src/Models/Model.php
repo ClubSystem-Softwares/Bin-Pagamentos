@@ -67,12 +67,20 @@ abstract class Model implements ModelInterface
 
     public function setAttribute(string $key, $value)
     {
-        $this->attributes[$this->getAttributeName($key)] = $value;
+        $key = $this->getAttributeName($key);
+
+        if ($this->isFillable($key)) {
+            $this->attributes[$key] = $value;
+        } else {
+            throw new MassAssignException(
+                sprintf('The attribute [%s] is not marked as fillable in [%s]', $key, get_class($this))
+            );
+        }
     }
 
     protected function getAttributeName($attribute): string
     {
-        return mb_convert_case($attribute, MB_CASE_TITLE);
+        return ucwords($attribute);
     }
 
     public function formatForDOM(): array

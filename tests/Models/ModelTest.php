@@ -35,4 +35,21 @@ class ModelTest extends TestCase
             'amount' => 1000
         ]);
     }
+
+    public function testModelWithSetAttribute()
+    {
+        $creditCardType = new CreditCardType();
+        $creditCardType->setAttribute('type', 'credit');
+
+        $this->assertEquals('credit', $creditCardType->getAttribute('type'));
+    }
+
+    public function testModelWithInvalidSetAttribute()
+    {
+        $this->expectException(MassAssignException::class);
+        $this->expectExceptionMessage('The attribute [CreditCardHolder] is not marked as fillable in [CSWeb\BIN\Models\CreditCardType]');
+
+        $creditCardType = new CreditCardType();
+        $creditCardType->setAttribute('creditCardHolder', 'Matheus Lopes Santos');
+    }
 }
