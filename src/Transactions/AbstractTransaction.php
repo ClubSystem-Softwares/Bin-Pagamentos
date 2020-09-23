@@ -2,6 +2,8 @@
 
 namespace CSWeb\BIN\Transactions;
 
+use CSWeb\BIN\Exceptions\NullTransactionParameters;
+use CSWeb\BIN\Interfaces\ModelInterface;
 use DOMDocument;
 
 /**
@@ -18,9 +20,22 @@ abstract class AbstractTransaction
      */
     protected $soap;
 
-    public function __construct()
+    /**
+     * @var ModelInterface[]
+     */
+    protected $models = [];
+
+    public function __construct(ModelInterface ...$models)
     {
-        $this->initializeSoap();
+        if (empty($models)) {
+            throw new NullTransactionParameters();
+        }
+
+        foreach ($models as $model) {
+            array_push($this->models, $model);
+        }
+
+        $this->bootstrapAndTransformModels();
     }
 
     public function initializeSoap()
@@ -57,9 +72,30 @@ abstract class AbstractTransaction
 
     public abstract function getRootNamespace(): string;
 
-    public abstract function transformData();
+    public function bootstrapAndTransformModels()
+    {
+        $this->initializeSoap();
 
-    public function toXml() : string
+        $transaction = $this->soap->getElementsByTagName($this->getRootNamespace())
+                                  ->item(0);
+
+        foreach ($this->models as $element) {
+            $elementData = $element->formatForDOM();
+
+            foreach ($elementData as $root => $children) {
+                $rootElement = $this->soap->createElement($root);
+
+                foreach ($children as $key => $value) {
+                    $childrenElement = $this->soap->createElement($key, $value);
+                    $rootElement->appendChild($childrenElement);
+                }
+
+                $transaction->appendChild($rootElement);
+            }
+        }
+    }
+
+    public function toXml(): string
     {
         return $this->soap->saveXML();
     }
