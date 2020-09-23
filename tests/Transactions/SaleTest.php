@@ -3,10 +3,14 @@
 namespace Tests\Transactions;
 
 use CSWeb\BIN\Exceptions\NullTransactionParameters;
-use CSWeb\BIN\Models\CreditCardData;
-use CSWeb\BIN\Models\CreditCardType;
-use CSWeb\BIN\Transactions\AbstractTransaction;
-use CSWeb\BIN\Transactions\Sale;
+use CSWeb\BIN\Models\{
+    CreditCardData,
+    CreditCardType
+};
+use CSWeb\BIN\Transactions\{
+    AbstractTransaction,
+    Sale
+};
 use PHPUnit\Framework\TestCase;
 
 class SaleTest extends TestCase
