@@ -2,6 +2,7 @@
 
 namespace CSWeb\BIN\Models;
 
+use CSWeb\BIN\Exceptions\MassAssignException;
 use CSWeb\BIN\Interfaces\ModelInterface;
 use InvalidArgumentException;
 
@@ -19,6 +20,8 @@ abstract class Model implements ModelInterface
     protected $prefix = null;
 
     protected $attributes;
+
+    protected $fillable = [];
 
     public function __construct(array $data = null)
     {
@@ -39,7 +42,15 @@ abstract class Model implements ModelInterface
     public function fill(array $attributes)
     {
         foreach ($attributes as $attribute => $value) {
-            $this->attributes[$this->getAttributeName($attribute)] = $value;
+            $attribute = $this->getAttributeName($attribute);
+
+            if (!$this->isFillable($attribute)) {
+                throw new MassAssignException(
+                    sprintf('The attribute [%s] is not marked as fillable in [%s]', $attribute, get_class($this))
+                );
+            }
+
+            $this->attributes[$attribute] = $value;
         }
     }
 
@@ -76,5 +87,10 @@ abstract class Model implements ModelInterface
         }
 
         return $data;
+    }
+
+    public function isFillable($key): bool
+    {
+        return in_array($key, $this->fillable);
     }
 }
