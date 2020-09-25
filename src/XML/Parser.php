@@ -16,18 +16,31 @@ class Parser
 {
     protected $xml;
 
-    public function __construct(string $xml)
+    protected $pathToExtract = null;
+
+    protected $removeFromXML = ['SOAP-ENV:', 'ipgapi:', 'a1:', 'v1:'];
+
+    public function __construct(string $xml, $pathToExtract = null)
     {
-        $toRemove = [
-            'SOAP-ENV:',
-            'ipgapi:',
-            'a1:',
-            'v1:'
-        ];
+        $this->pathToExtract($pathToExtract);
 
         $this->xml = simplexml_load_string(
-            strtolower(str_replace($toRemove, '', $xml))
+            str_replace($this->removeFromXML, '', $xml)
         );
+    }
+
+    public function pathToExtract(?string $pathToExtract): Parser
+    {
+        $this->pathToExtract = $pathToExtract;
+
+        return $this;
+    }
+
+    public function getBaseObject()
+    {
+        return ($this->pathToExtract)
+            ? $this->xml->Body->{$this->pathToExtract}
+            : $this->xml->Body;
     }
 
     public function toArray(): array
@@ -37,7 +50,7 @@ class Parser
 
     public function toJson(): string
     {
-        return json_encode($this->xml);
+        return json_encode($this->getBaseObject());
     }
 
     public function toObject(): stdClass

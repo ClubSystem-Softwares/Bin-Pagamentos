@@ -21,6 +21,16 @@ class ParserTest extends TestCase
         $this->assertJson($parser->toJson());
         $this->assertIsArray($parser->toArray());
         $this->assertInstanceOf(\stdClass::class, $parser->toObject());
+
+        $this->assertArrayHasKey('IPGApiActionResponse', $parser->toArray());
+    }
+
+    public function testElementExtraction()
+    {
+        $parser = new Parser($this->getFileContent());
+        $response = $parser->pathToExtract('IPGApiActionResponse')->toArray();
+
+        $this->assertArrayHasKey('successfully', $response);
     }
 
     protected function getFileContent() : string
