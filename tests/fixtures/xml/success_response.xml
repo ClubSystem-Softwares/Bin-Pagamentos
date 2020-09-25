@@ -2,7 +2,7 @@
 <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
     <SOAP-ENV:Header/>
     <SOAP-ENV:Body>
-        <ipgapi:IPGApiActionResponse xmlns:ipgapi="http://ipg- online.com/ipgapi/schemas/ipgapi" xmlns:a1="http://ipg- online.com/ipgapi/schemas/a1" xmlns:pay_1_0_0="http://api.clickandbuy.com/webservices/pay_1_0_0/" xmlns:v1="http://ipg-online.com/ipgapi/schemas/v1">
+        <ipgapi:IPGApiActionResponse xmlns:ipgapi="http://ipg-online.com/ipgapi/schemas/ipgapi" xmlns:a1="http://ipg-online.com/ipgapi/schemas/a1" xmlns:pay_1_0_0="http://api.clickandbuy.com/webservices/pay_1_0_0/" xmlns:v1="http://ipg-online.com/ipgapi/schemas/v1">
             <ipgapi:successfully>true</ipgapi:successfully>
             <a1:TransactionValues>
                 <v1:CreditCardTxType>
