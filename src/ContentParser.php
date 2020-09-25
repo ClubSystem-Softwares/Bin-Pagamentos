@@ -2,9 +2,11 @@
 
 namespace CSWeb\BIN;
 
-use CSWeb\BIN\Exceptions\InternalException;
-use CSWeb\BIN\Exceptions\MerchantException;
-use CSWeb\BIN\Exceptions\ProcessingException;
+use CSWeb\BIN\Exceptions\{
+    InternalException,
+    MerchantException,
+    ProcessingException
+};
 use CSWeb\BIN\XML\Parser;
 use stdClass;
 
