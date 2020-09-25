@@ -2,7 +2,12 @@
 
 namespace CSWeb\BIN;
 
+use CSWeb\BIN\Exceptions\RequestException;
+use CSWeb\BIN\Transactions\AbstractTransaction;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ServerException;
+use GuzzleHttp\Psr7\Request;
 
 /**
  * Http
@@ -23,9 +28,23 @@ class Http
         $this->env = $env;
     }
 
-    public function post()
+    public function send(AbstractTransaction $transaction)
     {
-        $client = $this->getClient();
+        $client  = $this->getClient();
+        $request = new Request('POST', 'services', [
+            'Content-Type' => 'application/xml'
+        ], $transaction->toXml());
+
+        try {
+            $response = $client->send($request);
+
+            $content = $response->getBody()->getContents();
+
+            return ContentParser::parse($content);
+
+        } catch (ClientException | ServerException $e) {
+            throw new RequestException('An error ocurred during the request', $e->getCode(), $e);
+        }
     }
 
     public function getClient(): Client
@@ -47,7 +66,7 @@ class Http
     public function baseUrl(): string
     {
         return $this->env->isSandbox()
-            ? 'https://test.ipg-online.com/ipgapi/services'
-            : 'https://www2.ipg-online.com/ipgapi/services';
+            ? 'https://test.ipg-online.com/ipgapi'
+            : 'https://www2.ipg-online.com/ipgapi';
     }
 }

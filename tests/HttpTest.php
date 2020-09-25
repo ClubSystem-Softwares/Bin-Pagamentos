@@ -16,7 +16,7 @@ class HttpTest extends TestCase
 
         $this->assertInstanceOf(Http::class, $http);
         $this->assertInstanceOf(Client::class, $http->getClient());
-        $this->assertEquals('https://test.ipg-online.com/ipgapi/services', $http->baseUrl());
+        $this->assertEquals('https://test.ipg-online.com/ipgapi', $http->baseUrl());
     }
 
     protected function getEnv(): Environment
