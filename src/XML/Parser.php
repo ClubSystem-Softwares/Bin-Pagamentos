@@ -50,7 +50,11 @@ class Parser
 
     public function toJson(): string
     {
-        return json_encode($this->getBaseObject());
+        $json = json_encode($this->getBaseObject());
+        $json = str_replace('"true"', 'true', $json);
+        $json = str_replace('"false"', 'false', $json);
+
+        return $json;
     }
 
     public function toObject(): stdClass

@@ -31,6 +31,7 @@ class ParserTest extends TestCase
         $response = $parser->pathToExtract('IPGApiActionResponse')->toArray();
 
         $this->assertArrayHasKey('successfully', $response);
+        $this->assertTrue($response['successfully']);
     }
 
     protected function getFileContent() : string
