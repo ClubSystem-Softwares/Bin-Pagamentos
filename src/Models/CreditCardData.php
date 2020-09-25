@@ -19,6 +19,7 @@ class CreditCardData extends Model
         'CardNumber',
         'ExpMonth',
         'ExpYear',
-        'CardCodeValue'
+        'CardCodeValue',
+        'Brand'
     ];
 }
