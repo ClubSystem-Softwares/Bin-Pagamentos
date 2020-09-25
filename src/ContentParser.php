@@ -38,9 +38,11 @@ class ContentParser
             }
 
             if (preg_match('/ProcessingException:/i', $faultString)) {
-                throw new ProcessingException(
-                    trim($detail->IPGApiOrderResponse->ProcessorResponseMessage)
-                );
+                $message = is_array($detail)
+                    ? $detail[0]->IPGApiOrderResponse->ErrorMessage
+                    : $detail->IPGApiOrderResponse->ErrorMessage;
+
+                throw new ProcessingException(trim($message));
             }
         }
 

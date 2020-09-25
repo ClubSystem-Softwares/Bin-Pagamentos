@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope
+        xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+    <SOAP-ENV:Header/>
+    <SOAP-ENV:Body>
+        <SOAP-ENV:Fault>
+            <faultcode>SOAP-ENV:Client</faultcode>
+            <faultstring xml:lang="en-US">
+                ProcessingException: Processing the request resulted in an error - see SOAP details for more information
+            </faultstring>
+            <detail>
+                <ipgapi:IPGApiOrderResponse xmlns:ipgapi="https://ipg-online.com/ipgapi/schemes/ipgapi">
+                    <ipgapi:CommercialServiceProvider>BNLP</ipgapi:CommercialServiceProvider>
+                    <ipgapi:TransactionTime>1192111156423</ipgapi:TransactionTime>
+                    <ipgapi:ProcessorReferenceNumber/>
+                    <ipgapi:ProcessorResponseMessage>Duplicate transaction</ipgapi:ProcessorResponseMessage>
+                    <ipgapi:ErrorMessage>SGS-005005: Duplicate transaction.</ipgapi:ErrorMessage>
+                    <ipgapi:OrderId>62e3b5df-2911-4e89-8356-1e49302b1807</ipgapi:OrderId>
+                    <ipgapi:ApprovalCode/>
+                    <ipgapi:AVSResponse/>
+                    <ipgapi:TDate>1192139943</ipgapi:TDate>
+                    <ipgapi:TransactionResult>FAILED</ipgapi:TransactionResult>
+                    <ipgapi:TerminalID>123456</ipgapi:TerminalID>
+                    <ipgapi:ProcessorResponseCode/>
+                    <ipgapi:ProcessorApprovalCode/>
+                    <ipgapi:ProcessorReceiptNumber/>
+                    <ipgapi:ProcessorTraceNumber/>
+                </ipgapi:IPGApiOrderResponse>
+            </detail>
+            <detail>
+                <ipgapi:IPGApiOrderResponse xmlns:ipgapi="https://ipg-online.com/ipgapi/schemes/ipgapi">
+                    <ipgapi:CommercialServiceProvider>BNLP</ipgapi:CommercialServiceProvider>
+                    <ipgapi:TransactionTime>1192111156423</ipgapi:TransactionTime>
+                    <ipgapi:ProcessorReferenceNumber/>
+                    <ipgapi:ProcessorResponseMessage>Card expiry date exceeded</ipgapi:ProcessorResponseMessage>
+                    <ipgapi:ErrorMessage>SGS-000033: Card expiry date exceeded</ipgapi:ErrorMessage>
+                    <ipgapi:OrderId>62e3b5df-2911-4e89-8356-1e49302b1807</ipgapi:OrderId>
+                    <ipgapi:ApprovalCode/>
+                    <ipgapi:AVSResponse/>
+                    <ipgapi:TDate>1192139943</ipgapi:TDate>
+                    <ipgapi:TransactionResult>FAILED</ipgapi:TransactionResult>
+                    <ipgapi:TerminalID>123456</ipgapi:TerminalID>
+                    <ipgapi:ProcessorResponseCode/>
+                    <ipgapi:ProcessorApprovalCode/>
+                    <ipgapi:ProcessorReceiptNumber/>
+                    <ipgapi:ProcessorTraceNumber/>
+                </ipgapi:IPGApiOrderResponse>
+            </detail>
+        </SOAP-ENV:Fault>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

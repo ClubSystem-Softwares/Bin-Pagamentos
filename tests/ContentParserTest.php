@@ -52,4 +52,14 @@ class ContentParserTest extends TestCase
             file_get_contents(__DIR__ . '/fixtures/xml/processing_error.xml')
         );
     }
+
+    public function testProcessingErrorWithMoreDetails()
+    {
+        $this->expectException(ProcessingException::class);
+        $this->expectExceptionMessage('Duplicate transaction.');
+
+        ContentParser::parse(
+            file_get_contents(__DIR__ . '/fixtures/xml/processing_error_array.xml')
+        );
+    }
 }
