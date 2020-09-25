@@ -4,13 +4,9 @@
     <SOAP-ENV:Header />
     <SOAP-ENV:Body>
         <SOAP-ENV:Fault>
-            <faultcode>SOAP-ENV:Client</faultcode>
-            <faultstring xml:lang="en-US">
-                MerchantException
+            <faultcode>SOAP-ENV:Server</faultcode>
+            <faultstring xml:lang="en-US"> unexpected error
             </faultstring>
-            <detail>
-                Some error raised here
-            </detail>
         </SOAP-ENV:Fault>
     </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>
