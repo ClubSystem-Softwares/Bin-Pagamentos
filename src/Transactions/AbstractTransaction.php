@@ -4,6 +4,7 @@ namespace CSWeb\BIN\Transactions;
 
 use CSWeb\BIN\Exceptions\NullTransactionParameters;
 use CSWeb\BIN\Interfaces\ModelInterface;
+use CSWeb\BIN\Interfaces\TransactionInterface;
 use DOMDocument;
 
 /**
@@ -13,7 +14,7 @@ use DOMDocument;
  * @version 1.0.0
  * @package CSWeb\BIN\Transactions
  */
-abstract class AbstractTransaction
+abstract class AbstractTransaction implements TransactionInterface
 {
     /**
      * @var DOMDocument

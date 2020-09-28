@@ -3,10 +3,12 @@
 namespace CSWeb\BIN;
 
 use CSWeb\BIN\Exceptions\RequestException;
-use CSWeb\BIN\Transactions\AbstractTransaction;
+use CSWeb\BIN\Interfaces\TransactionInterface;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\ServerException;
+use GuzzleHttp\Exception\{
+    ClientException,
+    ServerException
+};
 use GuzzleHttp\Psr7\Request;
 
 /**
@@ -28,7 +30,7 @@ class Http
         $this->env = $env;
     }
 
-    public function send(AbstractTransaction $transaction)
+    public function send(TransactionInterface $transaction)
     {
         $client  = $this->getClient();
         $request = new Request('POST', 'services', [
@@ -37,8 +39,7 @@ class Http
 
         try {
             $response = $client->send($request);
-
-            $content = $response->getBody()->getContents();
+            $content  = $response->getBody()->getContents();
 
             return ContentParser::parse($content);
 
