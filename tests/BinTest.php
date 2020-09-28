@@ -3,18 +3,18 @@
 namespace Tests;
 
 use CSWeb\BIN\Environment;
-use CSWeb\BIN\Http;
+use CSWeb\BIN\Bin;
 use GuzzleHttp\Client;
 use PHPUnit\Framework\TestCase;
 
-class HttpTest extends TestCase
+class BinTest extends TestCase
 {
     public function testHttpComponent()
     {
         $env  = $this->getEnv();
-        $http = new Http($env);
+        $http = new Bin($env);
 
-        $this->assertInstanceOf(Http::class, $http);
+        $this->assertInstanceOf(Bin::class, $http);
         $this->assertInstanceOf(Client::class, $http->getClient());
         $this->assertEquals('https://test.ipg-online.com/ipgapi', $http->baseUrl());
     }
