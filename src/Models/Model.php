@@ -120,7 +120,7 @@ abstract class Model implements ModelInterface
             case 'int':
                 return (int)$value;
             case 'float':
-                return (float)$value;
+                return number_format((float)$value, 2, '.', '');
             case 'bool':
                 return (bool)$value;
             default:
