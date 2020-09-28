@@ -23,6 +23,8 @@ abstract class Model implements ModelInterface
 
     protected $fillable = [];
 
+    protected $setterCasting = [];
+
     public function __construct(array $data = null)
     {
         if ($data) {
@@ -50,7 +52,7 @@ abstract class Model implements ModelInterface
                 );
             }
 
-            $this->attributes[$attribute] = $value;
+            $this->setAttributeValue($attribute, $value);
         }
     }
 
@@ -92,5 +94,37 @@ abstract class Model implements ModelInterface
     public function isFillable($key): bool
     {
         return in_array($key, $this->fillable);
+    }
+
+    public function getSetterCasting(string $key): ?string
+    {
+        if (empty($this->setterCasting) || !array_key_exists($key, $this->setterCasting)) {
+            return null;
+        }
+
+        return $this->setterCasting[$key];
+    }
+
+    public function setAttributeValue($attribute, $value)
+    {
+        $value = $this->castValue(
+            $this->getSetterCasting($attribute), $value
+        );
+
+        $this->attributes[$attribute] = $value;
+    }
+
+    protected function castValue(?string $cast, $value)
+    {
+        switch ($cast) {
+            case 'int':
+                return (int)$value;
+            case 'float':
+                return (float)$value;
+            case 'bool':
+                return (bool)$value;
+            default:
+                return $value;
+        }
     }
 }

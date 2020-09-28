@@ -20,4 +20,9 @@ class Payment extends Model
         'ChargeTotal',
         'Currency'
     ];
+
+    protected $setterCasting = [
+        'NumberOfInstallments' => 'int',
+        'ChargeTotal'          => 'float'
+    ];
 }
