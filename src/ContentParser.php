@@ -48,6 +48,6 @@ class ContentParser
             }
         }
 
-        return $content;
+        return $content->IPGApiActionResponse;
     }
 }

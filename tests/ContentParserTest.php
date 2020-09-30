@@ -16,9 +16,7 @@ class ContentParserTest extends TestCase
     {
         $content = file_get_contents(__DIR__ . '/fixtures/xml/success_response.xml');
 
-        $content = ContentParser::parse($content);
-
-        $transaction = $content->IPGApiActionResponse;
+        $transaction = ContentParser::parse($content);
 
         $this->assertTrue($transaction->successfully);
     }
