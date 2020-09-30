@@ -3,10 +3,8 @@
 namespace CSWeb\BIN;
 
 use CSWeb\BIN\Exceptions\RequestException;
-use CSWeb\BIN\Interfaces\ModelInterface;
 use CSWeb\BIN\Interfaces\TransactionInterface;
 use CSWeb\BIN\Traits\InteractsWithSale;
-use CSWeb\BIN\Transactions\Sale;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\{
     ClientException,
@@ -25,9 +23,6 @@ class Bin
 {
     use InteractsWithSale;
 
-    /**
-     * @var Environment
-     */
     protected $env;
 
     public function __construct(Environment $env)
@@ -47,7 +42,6 @@ class Bin
             $content  = $response->getBody()->getContents();
 
             return ContentParser::parse($content);
-
         } catch (ClientException | ServerException $e) {
             throw new RequestException('An error ocurred during the request', $e->getCode(), $e);
         }
