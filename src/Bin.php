@@ -3,7 +3,10 @@
 namespace CSWeb\BIN;
 
 use CSWeb\BIN\Exceptions\RequestException;
+use CSWeb\BIN\Interfaces\ModelInterface;
 use CSWeb\BIN\Interfaces\TransactionInterface;
+use CSWeb\BIN\Traits\InteractsWithSale;
+use CSWeb\BIN\Transactions\Sale;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\{
     ClientException,
@@ -20,6 +23,8 @@ use GuzzleHttp\Psr7\Request;
  */
 class Bin
 {
+    use InteractsWithSale;
+
     /**
      * @var Environment
      */
