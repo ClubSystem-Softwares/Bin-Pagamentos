@@ -16,6 +16,7 @@ class TransactionDetail extends Model
     protected $namespace = 'TransactionDetails';
 
     protected $fillable = [
-        'OrderId'
+        'OrderId',
+        'TDate'
     ];
 }
