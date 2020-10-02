@@ -47,13 +47,13 @@ abstract class AbstractTransaction implements TransactionInterface
         $dom->formatOutput       = true;
 
         // Soap Env
-        $envelope = $dom->createElementNS('http://schemas.xmlsoap.org/soap/envelope/', 'soap-env:Envelope');
+        $envelope = $dom->createElementNS('http://schemas.xmlsoap.org/soap/envelope/', 'SOAP-ENV:Envelope');
 
         // Soap Header
-        $header = $dom->createElement('soap-env:Header');
+        $header = $dom->createElement('SOAP-ENV:Header');
 
         // Soap Body
-        $body = $dom->createElement('soap-env:Body');
+        $body = $dom->createElement('SOAP-ENV:Body');
 
         $igapi = $dom->createElement('ipgapi:IPGApiOrderRequest');
         $igapi->setAttribute('xmlns:v1', 'http://ipg-online.com/ipgapi/schemas/v1');
