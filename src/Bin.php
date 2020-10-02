@@ -32,6 +32,7 @@ class Bin
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: text/xml"));
         curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_USERPWD, $this->env->getUsername().':'.$this->env->getPassword());
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
         curl_setopt($ch, CURLOPT_SSLCERT, $this->env->getSslCert());
         curl_setopt($ch, CURLOPT_SSLKEY, $this->env->getSslKey());
