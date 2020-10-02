@@ -10,7 +10,6 @@ use GuzzleHttp\Exception\{
     ClientException,
     ServerException
 };
-use GuzzleHttp\Psr7\Request;
 
 /**
  * Bin
@@ -32,25 +31,8 @@ class Bin
 
     public function send(TransactionInterface $transaction)
     {
-        $client  = $this->getClient();
-        $request = new Request('POST', 'services', [
-            'Content-Type' => 'application/xml'
-        ], $transaction->toXml());
-
-        try {
-            $response = $client->send($request);
-            $content  = $response->getBody()->getContents();
-
-            return ContentParser::parse($content);
-        } catch (ClientException | ServerException $e) {
-            throw new RequestException('An error ocurred during the request', $e->getCode(), $e);
-        }
-    }
-
-    public function getClient(): Client
-    {
-        return new Client([
-            'base_url' => $this->baseUrl(),
+        $client = new Client([
+            'base_uri' => $this->baseUrl(),
             'auth'     => [
                 $this->env->getUsername(),
                 $this->env->getPassword()
@@ -58,15 +40,31 @@ class Bin
             'curl'     => [
                 CURLOPT_SSLCERT      => $this->env->getSslCert(),
                 CURLOPT_SSLKEY       => $this->env->getSslKey(),
-                CURLOPT_SSLKEYPASSWD => $this->env->getSslPassword()
+                CURLOPT_SSLKEYPASSWD => $this->env->getSslPassword(),
+                CURLOPT_POSTFIELDS   => $transaction->toXml()
             ]
         ]);
+
+
+        try {
+            $response = $client->request('POST', 'services', [
+                'headers' => [
+                    'Content-Type' => 'application/xml'
+                ]
+            ]);
+
+            $content  = $response->getBody()->getContents();
+
+            return ContentParser::parse($content);
+        } catch (ClientException | ServerException $e) {
+            throw new RequestException('Aconteceu um erro durante a integração. Tente novamente', $e->getCode(), $e);
+        }
     }
 
     public function baseUrl(): string
     {
         return $this->env->isSandbox()
-            ? 'https://test.ipg-online.com/ipgapi'
-            : 'https://www2.ipg-online.com/ipgapi';
+            ? 'https://test.ipg-online.com/ipgapi/'
+            : 'https://www2.ipg-online.com/ipgapi/';
     }
 }
