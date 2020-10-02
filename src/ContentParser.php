@@ -21,6 +21,14 @@ class ContentParser
 {
     public static function parse(string $xml): stdClass
     {
+        if ( static::isJson($xml) ) {
+            $content = json_decode($xml, true);
+
+            if (isset($content['message'])) {
+                throw new MerchantException($content['message']);
+            }
+        }
+
         $content = (new Parser($xml))->toObject();
 
         if (property_exists($content, 'Fault')) {
@@ -49,5 +57,12 @@ class ContentParser
         }
 
         return $content->IPGApiActionResponse;
+    }
+
+    public static function isJson($content): bool
+    {
+        json_decode($content);
+
+        return json_last_error() === JSON_ERROR_NONE;
     }
 }

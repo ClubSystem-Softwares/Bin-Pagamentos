@@ -41,7 +41,7 @@ class Bin
 
         $response = curl_exec($ch);
 
-        if (curl_errno($ch) == 0) {
+        if (curl_errno($ch) !== 0) {
             throw new RequestException(
                 sprintf('Ocorreu um erro durante a requisição: cURL - %d (%s)', curl_errno($ch), curl_error($ch))
             );
