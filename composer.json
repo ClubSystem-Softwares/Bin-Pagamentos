@@ -24,7 +24,6 @@
         "php": ">=7.2",
         "ext-dom": "*",
         "ext-curl": "*",
-        "guzzlehttp/guzzle": "^6.5",
         "ext-simplexml": "*",
         "ext-json": "*"
     },

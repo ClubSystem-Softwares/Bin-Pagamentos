@@ -5,11 +5,6 @@ namespace CSWeb\BIN;
 use CSWeb\BIN\Exceptions\RequestException;
 use CSWeb\BIN\Interfaces\TransactionInterface;
 use CSWeb\BIN\Traits\InteractsWithSale;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\{
-    ClientException,
-    ServerException
-};
 
 /**
  * Bin
@@ -31,34 +26,28 @@ class Bin
 
     public function send(TransactionInterface $transaction)
     {
-        $client = new Client([
-            'base_uri' => $this->baseUrl(),
-            'auth'     => [
-                $this->env->getUsername(),
-                $this->env->getPassword()
-            ],
-            'curl'     => [
-                CURLOPT_SSLCERT      => $this->env->getSslCert(),
-                CURLOPT_SSLKEY       => $this->env->getSslKey(),
-                CURLOPT_SSLKEYPASSWD => $this->env->getSslPassword(),
-                CURLOPT_POSTFIELDS   => $transaction->toXml()
-            ]
-        ]);
+        $ch = curl_init();
 
+        curl_setopt($ch, CURLOPT_URL, $this->baseUrl()."services");
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: text/xml"));
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_SSLCERT, $this->env->getSslCert());
+        curl_setopt($ch, CURLOPT_SSLKEY, $this->env->getSslKey());
+        curl_setopt($ch, CURLOPT_SSLKEYPASSWD, $this->env->getSslPassword());
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $transaction->toXml());
 
-        try {
-            $response = $client->request('POST', 'services', [
-                'headers' => [
-                    'Content-Type' => 'application/xml'
-                ]
-            ]);
+        $response = curl_exec($ch);
 
-            $content  = $response->getBody()->getContents();
-
-            return ContentParser::parse($content);
-        } catch (ClientException | ServerException $e) {
-            throw new RequestException('Aconteceu um erro durante a integração. Tente novamente', $e->getCode(), $e);
+        if (curl_errno($ch) == 0) {
+            throw new RequestException(
+                sprintf('Ocorreu um erro durante a requisição: cURL - %d (%s)', curl_errno($ch), curl_error($ch))
+            );
         }
+
+        return ContentParser::parse($response);
     }
 
     public function baseUrl(): string
