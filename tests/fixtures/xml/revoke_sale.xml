@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<soap-env:Envelope xmlns:soap-env="http://schemas.xmlsoap.org/soap/envelope/">
-  <soap-env:Header/>
-  <soap-env:Body>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Header/>
+  <SOAP-ENV:Body>
     <ipgapi:IPGApiOrderRequest xmlns:v1="http://ipg-online.com/ipgapi/schemas/v1" xmlns:ipgapi="http://ipg-online.com/ipgapi/schemas/ipgapi">
       <v1:Transaction>
         <v1:CreditCardTxType>
@@ -13,5 +13,5 @@
         </v1:TransactionDetails>
       </v1:Transaction>
     </ipgapi:IPGApiOrderRequest>
-  </soap-env:Body>
-</soap-env:Envelope>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
