@@ -28,17 +28,19 @@ class Bin
     {
         $ch = curl_init();
 
-        curl_setopt($ch, CURLOPT_URL, $this->baseUrl()."services");
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: text/xml"));
-        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-        curl_setopt($ch, CURLOPT_USERPWD, $this->env->getUsername().':'.$this->env->getPassword());
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-        curl_setopt($ch, CURLOPT_SSLCERT, $this->env->getSslCert());
-        curl_setopt($ch, CURLOPT_SSLKEY, $this->env->getSslKey());
-        curl_setopt($ch, CURLOPT_SSLKEYPASSWD, $this->env->getSslPassword());
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $transaction->toXml());
+        curl_setopt_array($ch, [
+            CURLOPT_URL            => $this->baseUrl()."services",
+            CURLOPT_POST           => 1,
+            CURLOPT_HTTPHEADER     => ["Content-Type: text/xml"],
+            CURLOPT_HTTPAUTH       => CURLAUTH_BASIC,
+            CURLOPT_USERPWD        => $this->env->getUsername().':'.$this->env->getPassword(),
+            CURLOPT_SSL_VERIFYPEER => 0,
+            CURLOPT_SSLCERT        => $this->env->getSslCert(),
+            CURLOPT_SSLKEY         => $this->env->getSslKey(),
+            CURLOPT_SSLKEYPASSWD   => $this->env->getSslPassword(),
+            CURLOPT_RETURNTRANSFER => 1,
+            CURLOPT_POSTFIELDS     => $transaction->toXml()
+        ]);
 
         $response = curl_exec($ch);
 
