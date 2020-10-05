@@ -21,7 +21,7 @@ class ContentParser
 {
     public static function parse(string $xml): stdClass
     {
-        if ( static::isJson($xml) ) {
+        if (static::isJson($xml)) {
             $content = json_decode($xml, true);
 
             if (isset($content['message'])) {
@@ -47,7 +47,7 @@ class ContentParser
                 throw new MerchantException(trim($detail));
             }
 
-            if (preg_match('/ProcessingException:/i', $faultString)) {
+            if ($faultString == 'ProcessingException' || preg_match('/ProcessingException:/i', $faultString)) {
                 $message = is_array($detail)
                     ? $detail[0]->IPGApiOrderResponse->ErrorMessage
                     : $detail->IPGApiOrderResponse->ErrorMessage;
@@ -55,8 +55,6 @@ class ContentParser
                 throw new ProcessingException(trim($message));
             }
         }
-
-        return $content->IPGApiActionResponse;
     }
 
     public static function isJson($content): bool
