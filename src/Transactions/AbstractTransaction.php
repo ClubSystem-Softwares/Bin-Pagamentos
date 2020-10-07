@@ -3,7 +3,6 @@
 namespace CSWeb\BIN\Transactions;
 
 use CSWeb\BIN\Exceptions\NullTransactionParameters;
-use CSWeb\BIN\Interfaces\ModelInterface;
 use CSWeb\BIN\Interfaces\TransactionInterface;
 use DOMDocument;
 
@@ -22,21 +21,26 @@ abstract class AbstractTransaction implements TransactionInterface
     protected $soap;
 
     /**
-     * @var ModelInterface[]
+     * @var array
      */
-    protected $models = [];
+    protected $payload;
 
-    public function __construct(ModelInterface ...$models)
+    /**
+     * @var string|null
+     */
+    protected $prefix;
+
+    public function __construct(array $payload = null, string $prefix = null)
     {
-        if (empty($models)) {
+        if (is_null($payload)) {
             throw new NullTransactionParameters();
         }
 
-        foreach ($models as $model) {
-            array_push($this->models, $model);
-        }
+        $this->payload = $payload;
+        $this->prefix  = $prefix;
 
-        $this->bootstrapAndTransformModels();
+        $this->initializeSoap();
+        $this->bootstrapAndTransformData();
     }
 
     public function initializeSoap()
@@ -73,31 +77,40 @@ abstract class AbstractTransaction implements TransactionInterface
 
     public abstract function getRootNamespace(): string;
 
-    public function bootstrapAndTransformModels()
+    public function bootstrapAndTransformData()
     {
-        $this->initializeSoap();
-
         $transaction = $this->soap->getElementsByTagName($this->getRootNamespace())
                                   ->item(0);
 
-        foreach ($this->models as $element) {
-            $elementData = $element->formatForDOM();
+        foreach ($this->payload as $key => $value) {
+            $rootName = $this->getElementName($key);
 
-            foreach ($elementData as $root => $children) {
-                $rootElement = $this->soap->createElement($root);
+            if (!is_array($value)) {
+                $rootElement = $this->soap->createElement($rootName, $value);
+            } else {
+                $rootElement = $this->soap->createElement($rootName);
 
-                foreach ($children as $key => $value) {
-                    $childrenElement = $this->soap->createElement($key, $value);
-                    $rootElement->appendChild($childrenElement);
+                foreach ($value as $child => $item) {
+                    $childName = $this->getElementName($child);
+                    $children  = $this->soap->createElement($childName, $item);
+
+                    $rootElement->appendChild($children);
                 }
-
-                $transaction->appendChild($rootElement);
             }
+
+            $transaction->appendChild($rootElement);
         }
     }
 
     public function toXml(): string
     {
         return $this->soap->saveXML();
+    }
+
+    public function getElementName(string $element): string
+    {
+        return $this->prefix
+            ? $this->prefix.':'.$element
+            : $element;
     }
 }

@@ -2,8 +2,6 @@
 
 namespace CSWeb\BIN\Transactions;
 
-use RuntimeException;
-
 /**
  * Sale
  *
