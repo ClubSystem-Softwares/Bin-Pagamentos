@@ -55,6 +55,8 @@ class ContentParser
                 throw new ProcessingException(trim($message));
             }
         }
+
+        return $content->IPGApiActionResponse;
     }
 
     public static function isJson($content): bool
