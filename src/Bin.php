@@ -4,7 +4,6 @@ namespace CSWeb\BIN;
 
 use CSWeb\BIN\Exceptions\RequestException;
 use CSWeb\BIN\Interfaces\TransactionInterface;
-use CSWeb\BIN\Traits\InteractsWithSale;
 
 /**
  * Bin
@@ -15,8 +14,6 @@ use CSWeb\BIN\Traits\InteractsWithSale;
  */
 class Bin
 {
-    use InteractsWithSale;
-
     protected $env;
 
     public function __construct(Environment $env)
