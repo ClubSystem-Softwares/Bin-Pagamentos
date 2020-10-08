@@ -68,3 +68,34 @@ $bin = new Bin($env);
 $response = $bin->send($sale);
 ```
 
+#### Cancelando uma venda
+
+Para cancelar uma venda, faça o seguinte
+
+```php
+<?php
+
+require_once __DIR__ . './vendor/autoload.php';
+
+use CSWeb\BIN\Environment;
+use CSWeb\BIN\Transactions\RevokeSale;
+use CSWeb\BIN\Bin;
+
+$payload = [
+    'CreditCardTxType'   => [
+        'Type' => 'void'
+    ],
+    'TransactionDetails' => [
+        'OrderId' => 1,
+        'TDate'   => 1190244932
+    ]
+];
+
+$sale = new RevokeSale($payload, 'v1');
+$env  = new Environment('username', 'password', 'path/to/cert', 'path/to/key', 'ssl_key');
+
+$bin = new Bin($env);
+
+$response = $bin->send($sale);
+```
+
